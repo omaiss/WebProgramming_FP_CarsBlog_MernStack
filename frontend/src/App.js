@@ -1,11 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import Login from './components/account/Login';
-
+import {Box} from "@mui/material";
+import autoblog from './images/autoblog.png'
+  
 function App() {
+  // const img_url = "autoblog.png";
   return (
     <div className="App">
+    <Box>
+    <img src={autoblog}></img>
       <Login />
+      </Box>
     </div>
   );
 }

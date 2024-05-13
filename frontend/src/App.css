@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes policeLights {
+  1% {
+    border-top:2px solid black;
+    animation-delay: .5s;
+  }
+  50% {
+    border-right:2px solid red;
+    animation-delay: .6s;
+  }
+  75%{
+    border-bottom:2px solid black;
+    animation-delay: .7s;
+  }
+  90% {
+    border-left:2px solid red;
+    animation-delay: 0.8s;
+  }
+  100%{
+    border:1px solid transparent;
+    animation-delay: 1s;
+  }
+}
+

@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Handles backend implementation for the cars blog website",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omaiss/WebProgramming_FP_CarsBlog_MernStack.git"
+  },
+  "author": "M. Omais Afzal, Ahsan Wasim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omaiss/WebProgramming_FP_CarsBlog_MernStack/issues"
+  },
+  "homepage": "https://github.com/omaiss/WebProgramming_FP_CarsBlog_MernStack#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

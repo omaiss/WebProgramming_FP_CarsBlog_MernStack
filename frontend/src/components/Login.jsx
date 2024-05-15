@@ -2,13 +2,13 @@ import { Box, Button, TextField, Typography, styled } from "@mui/material";
 import autoblog from '../images/autoblog_rm.png';
 import sideimg from '../images/car.jpg';
 import { useState } from "react";
+import { API } from '../services/api';
 
 const Component = styled(Box)`
     width:600px;
     margin:auto;
     margin-top:20px;
     color:black;
-    box-shadow: 5px 2px 5px 2px whitesmoke;
     padding: 25px;
 `
 const Image = styled('img')({
@@ -16,9 +16,6 @@ const Image = styled('img')({
     height: 'inherit',
     display: 'block',
     margin: 'auto',
-    "border-radius": '5px',
-    border: '1px solid transparent',
-    animation: "policeLights 2s infinite"
 });
 
 const Wrapper = styled(Box)`
@@ -40,15 +37,24 @@ const Sideimage = styled("img")({
     height: "828px",
 });
 
+const Errortext = styled(Typography)`
+    margin: 0 auto;
+    font-size: 12px;
+    color: red;
+    margin-top: 10px;
+    font-weight:600px;
+`
+
 const UserData = {
+    email: '',
     username: '',
     password: '',
-    email: '',
 }
 
 const Login = () => {
     const [acc, toggleAcc] = useState('login');
     const [user_data, setuserdata] = useState(UserData);
+    const [error, seterror] = useState('');
 
     const handlebuttonclick = () => {
         if (acc === 'login')
@@ -61,6 +67,18 @@ const Login = () => {
         setuserdata({ ...acc, [e.target.name]: e.target.value });
     }
 
+    const signupuser = async () => {
+        let response = await API.userSignup(user_data);
+        if (response.isSuccess) {
+            seterror('');
+            setuserdata(UserData);
+            toggleAcc();
+        }
+        else {
+            seterror('OH! Something went wrong.\nCheck your information and try again');
+        }
+    }
+
     return (
         <PageBox>
             <Component>
@@ -69,7 +87,8 @@ const Login = () => {
                     <Wrapper>
                         <TextField name='username' variant="standard" placeholder="Username" onChange={(e) => handleChange(e)} />
                         <TextField name='passowrd' type='password' variant="standard" placeholder="Password" onChange={(e) => handleChange(e)} />
-                        <Button style={{ "background-color": "red", color: "white" }} variant='contained'>Login</Button>
+                        <Button style={{ "backgroundColor": "red", color: "white" }} variant='contained' onClick={signupuser}>Login</Button>
+                        {error && <Errortext margin={"0 auto"}> {error}</Errortext>}
                         <Typography margin={"0 auto"}>OR</Typography>
                         <Button style={{ color: "black", backgroundColor: "#e5e5e5" }} onClick={handlebuttonclick}>Create Account</Button>
                     </Wrapper>
@@ -78,7 +97,8 @@ const Login = () => {
                         <TextField name='username' variant="standard" placeholder="Username" onChange={(e) => handleChange(e)} />
                         <TextField name='passowrd' type='password' variant="standard" placeholder="Password" onChange={(e) => handleChange(e)} />
                         <TextField name='email' variant="standard" placeholder="Email" type='email' onChange={(e) => handleChange(e)} />
-                        <Button style={{ "background-color": "red", color: "white" }} variant='contained'>Sign Up</Button>
+                        {error && <Errortext> {error}</Errortext>}
+                        <Button style={{ "backgroundColor": "red", color: "white" }} variant='contained' onClick={signupuser}>Sign Up</Button>
                         <Typography margin={"0 auto"}>OR</Typography>
                         <Button style={{ color: "black", backgroundColor: "#e5e5e5" }} onClick={handlebuttonclick}>Login to Account</Button>
                     </Wrapper>

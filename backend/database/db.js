@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
  
 const Connect_to_DB = async (uname, pass) => {
-    const URL = `mongodb+srv://${uname}:${pass}@cluster0.fatievb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+    const URL = `mongodb+srv://${uname}:${pass}@webcluster.jqjqrgh.mongodb.net/?retryWrites=true&w=majority&appName=webcluster`;
     try{
         await mongoose.connect(URL);
         console.log('Database connection established.'); 

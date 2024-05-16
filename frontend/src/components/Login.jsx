@@ -53,8 +53,9 @@ const UserData = {
 
 const Login = () => {
     const [acc, toggleAcc] = useState('login');
-    const [user_data, setuserdata] = useState(UserData);
+    const [user_data, setuserdata] = useState();
     const [error, seterror] = useState('');
+    const [success, setsuccess] = useState('');
 
     const handlebuttonclick = () => {
         if (acc === 'login')
@@ -64,19 +65,31 @@ const Login = () => {
     }
 
     const handleChange = (e) => {
-        setuserdata({ ...acc, [e.target.name]: e.target.value });
+        setuserdata({ ...user_data, [e.target.name]: e.target.value });
+        console.log(user_data);
     }
 
     const signupuser = async () => {
-        let response = await API.userSignup(user_data);
-        if (response.isSuccess) {
-            seterror('');
-            setuserdata(UserData);
-            toggleAcc();
+        try {
+            let response = await API.userSignup(user_data);
+            if (response.isSuccess) {
+                seterror('');
+                setuserdata(UserData);
+                toggleAcc('login');
+                setsuccess('SignUp Success. Login Now');
+            }             
+        } catch (error) {
+            if (user_data)
+            seterror('User email already registered.');
         }
-        else {
-            seterror('OH! Something went wrong.\nCheck your information and try again');
-        }
+    }
+    
+    const loginChange = (e) => {   
+        console.log(e.target.name, e.target.value);
+    }
+
+    const handlelogin = (e) => {
+        seterror('Implement it bitch');
     }
 
     return (
@@ -85,17 +98,18 @@ const Login = () => {
                 <Image src={autoblog} alt='login' />
                 {acc === 'login' ?
                     <Wrapper>
-                        <TextField name='username' variant="standard" placeholder="Username" onChange={(e) => handleChange(e)} />
-                        <TextField name='passowrd' type='password' variant="standard" placeholder="Password" onChange={(e) => handleChange(e)} />
-                        <Button style={{ "backgroundColor": "red", color: "white" }} variant='contained' onClick={signupuser}>Login</Button>
+                        <TextField name='username' variant="standard" placeholder="Username" onChange={(e) => loginChange(e)} />
+                        <TextField name='password' type='password' variant="standard" placeholder="Password" onChange={(e) => loginChange(e)} />
+                        <Button style={{ "backgroundColor": "red", color: "white" }} variant='contained' onClick={handlelogin}>Login</Button>
                         {error && <Errortext margin={"0 auto"}> {error}</Errortext>}
+                        {success && <Errortext margin={"0 auto"}> {success} </Errortext>}
                         <Typography margin={"0 auto"}>OR</Typography>
                         <Button style={{ color: "black", backgroundColor: "#e5e5e5" }} onClick={handlebuttonclick}>Create Account</Button>
                     </Wrapper>
                     :
                     <Wrapper>
                         <TextField name='username' variant="standard" placeholder="Username" onChange={(e) => handleChange(e)} />
-                        <TextField name='passowrd' type='password' variant="standard" placeholder="Password" onChange={(e) => handleChange(e)} />
+                        <TextField name='password' type='password' variant="standard" placeholder="Password" onChange={(e) => handleChange(e)} />
                         <TextField name='email' variant="standard" placeholder="Email" type='email' onChange={(e) => handleChange(e)} />
                         {error && <Errortext> {error}</Errortext>}
                         <Button style={{ "backgroundColor": "red", color: "white" }} variant='contained' onClick={signupuser}>Sign Up</Button>
